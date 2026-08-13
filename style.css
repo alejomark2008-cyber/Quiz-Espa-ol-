@@ -1,22 +1,998 @@
-/* Estilos de Chain Rush - se completarán en la siguiente etapa */
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-html, body {
-  margin: 0;
-  min-height: 100%;
-  background: #050505;
-  color: #ffffff;
-  font-family: Arial, sans-serif;
+:root {
+    --papel: #e8d7b5;
+    --papel-claro: #f3e7cc;
+    --papel-oscuro: #c7ad82;
+    --marron: #4b2e1e;
+    --marron-claro: #79583c;
+    --tinta: #292016;
+    --oro: #9a743c;
+    --rojo: #71352c;
 }
 
-#game-container {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
+body {
+    min-height: 100vh;
+    font-family: "Playfair Display", Georgia, serif;
+    color: var(--tinta);
+    background:
+        radial-gradient(circle at center, rgba(255,255,255,0.18), transparent 55%),
+        linear-gradient(135deg, #5b412c, #2d2118);
+    overflow-x: hidden;
 }
 
-#game {
-  width: min(1100px, 100vw);
+
+/* ========================================
+   FONDO ANTIGUO
+======================================== */
+
+.fondo {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(255, 239, 194, 0.18),
+            transparent 65%
+        ),
+        repeating-linear-gradient(
+            0deg,
+            rgba(80, 45, 20, 0.04) 0px,
+            rgba(80, 45, 20, 0.04) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+
+    pointer-events: none;
 }
+
+.fondo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    box-shadow:
+        inset 0 0 180px rgba(20, 10, 5, 0.85);
+
+    pointer-events: none;
+}
+
+
+/* ========================================
+   CONTENEDOR
+======================================== */
+
+.contenedor {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 35px 20px;
+}
+
+
+/* ========================================
+   PANTALLAS
+======================================== */
+
+.pantalla {
+    display: none;
+    width: 100%;
+    max-width: 850px;
+
+    animation: aparecer 0.6s ease;
+}
+
+.pantalla.activa {
+    display: block;
+}
+
+@keyframes aparecer {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* ========================================
+   MARCO PRINCIPAL
+======================================== */
+
+.marco,
+.quiz-marco {
+
+    position: relative;
+
+    background:
+        linear-gradient(
+            rgba(244, 231, 202, 0.94),
+            rgba(225, 204, 165, 0.96)
+        );
+
+    border: 2px solid var(--marron);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,0.55),
+        inset 0 0 45px rgba(80, 45, 20, 0.16);
+
+    padding: 55px;
+
+}
+
+
+/* Borde interior */
+
+.marco::before,
+.quiz-marco::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 13px;
+
+    border: 1px solid rgba(75, 46, 30, 0.55);
+
+    pointer-events: none;
+
+}
+
+
+/* ========================================
+   ORNAMENTOS
+======================================== */
+
+.ornamento {
+
+    font-size: 42px;
+
+    color: var(--oro);
+
+    text-align: center;
+
+    line-height: 1;
+
+}
+
+.superior {
+    margin-bottom: 20px;
+}
+
+.inferior {
+    margin-top: 30px;
+}
+
+
+/* ========================================
+   TITULO
+======================================== */
+
+.pequeno {
+
+    font-family: "Cinzel", serif;
+
+    font-size: 12px;
+
+    letter-spacing: 5px;
+
+    color: var(--marron-claro);
+
+    margin-bottom: 15px;
+
+}
+
+
+h1 {
+
+    font-family: "Cinzel", serif;
+
+    font-size: clamp(42px, 7vw, 75px);
+
+    line-height: 0.98;
+
+    letter-spacing: -2px;
+
+    font-weight: 600;
+
+    color: var(--marron);
+
+    text-shadow:
+        1px 1px 0 rgba(255,255,255,0.4);
+
+}
+
+
+h2 {
+
+    font-family: "Playfair Display", serif;
+
+    font-style: italic;
+
+    font-weight: 400;
+
+    color: var(--marron);
+
+}
+
+
+/* ========================================
+   SEPARADOR
+======================================== */
+
+.separador {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 16px;
+
+    margin: 25px 0;
+
+    color: var(--oro);
+
+    font-size: 22px;
+
+}
+
+.separador::before,
+.separador::after {
+
+    content: "";
+
+    width: 80px;
+
+    height: 1px;
+
+    background: var(--oro);
+
+}
+
+
+/* ========================================
+   ILUSTRACIÓN
+======================================== */
+
+.ilustracion {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 210px;
+
+    margin: 30px 0;
+
+    overflow: hidden;
+
+    border: 1px solid var(--marron);
+
+    background:
+        linear-gradient(
+            to bottom,
+            #776750,
+            #c2a67c 65%,
+            #4d3928 65%
+        );
+
+}
+
+
+/* Luna */
+
+.luna {
+
+    position: absolute;
+
+    width: 65px;
+    height: 65px;
+
+    border-radius: 50%;
+
+    background: #ead9a8;
+
+    top: 28px;
+    right: 90px;
+
+    box-shadow:
+        0 0 25px rgba(255, 239, 183, 0.55);
+
+}
+
+
+/* Montañas */
+
+.montana {
+
+    position: absolute;
+
+    bottom: 65px;
+
+    width: 0;
+    height: 0;
+
+    border-left: 160px solid transparent;
+    border-right: 160px solid transparent;
+    border-bottom: 150px solid #493b30;
+
+}
+
+.montana-1 {
+    left: -80px;
+}
+
+.montana-2 {
+
+    right: -100px;
+
+    border-bottom-color: #5a4838;
+
+}
+
+
+/* Árbol */
+
+.arbol {
+
+    position: absolute;
+
+    bottom: 50px;
+
+    left: 80px;
+
+}
+
+.tronco {
+
+    width: 15px;
+    height: 125px;
+
+    background: #241a13;
+
+}
+
+.rama {
+
+    position: absolute;
+
+    height: 9px;
+
+    background: #241a13;
+
+    transform-origin: left;
+
+}
+
+.rama-1 {
+
+    width: 75px;
+
+    top: 20px;
+    left: 5px;
+
+    transform: rotate(-35deg);
+
+}
+
+.rama-2 {
+
+    width: 65px;
+
+    top: 50px;
+    left: 5px;
+
+    transform: rotate(30deg);
+
+}
+
+.rama-3 {
+
+    width: 55px;
+
+    top: 80px;
+    left: 5px;
+
+    transform: rotate(-25deg);
+
+}
+
+
+/* Silueta */
+
+.figura {
+
+    position: absolute;
+
+    bottom: 50px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+}
+
+.cabeza {
+
+    width: 22px;
+    height: 22px;
+
+    border-radius: 50%;
+
+    background: #211811;
+
+    margin: auto;
+
+}
+
+.cuerpo {
+
+    width: 48px;
+    height: 75px;
+
+    background: #211811;
+
+    clip-path: polygon(
+        30% 0,
+        70% 0,
+        100% 100%,
+        0 100%
+    );
+
+}
+
+
+/* ========================================
+   DESCRIPCIÓN
+======================================== */
+
+.descripcion {
+
+    max-width: 570px;
+
+    margin: 25px auto;
+
+    font-size: 17px;
+
+    line-height: 1.7;
+
+    color: #59432f;
+
+}
+
+
+/* ========================================
+   FORMULARIO
+======================================== */
+
+.entrada {
+
+    max-width: 430px;
+
+    margin: 30px auto 0;
+
+    text-align: left;
+
+}
+
+.entrada label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-family: "Cinzel", serif;
+
+    font-size: 12px;
+
+    letter-spacing: 1px;
+
+    color: var(--marron);
+
+}
+
+
+input {
+
+    width: 100%;
+
+    padding: 16px;
+
+    border: 1px solid #987c58;
+
+    outline: none;
+
+    background: rgba(255, 247, 225, 0.75);
+
+    color: var(--tinta);
+
+    font-family: "Playfair Display", serif;
+
+    font-size: 16px;
+
+    border-radius: 2px;
+
+}
+
+
+input:focus {
+
+    border-color: var(--marron);
+
+}
+
+
+/* ========================================
+   BOTONES
+======================================== */
+
+button {
+
+    font-family: "Cinzel", serif;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+
+}
+
+
+.entrada button,
+.boton-final {
+
+    width: 100%;
+
+    margin-top: 12px;
+
+    padding: 16px;
+
+    border: 1px solid var(--marron);
+
+    background: var(--marron);
+
+    color: var(--papel-claro);
+
+    font-size: 14px;
+
+    letter-spacing: 1px;
+
+}
+
+
+.entrada button:hover,
+.boton-final:hover {
+
+    background: #68432b;
+
+    transform: translateY(-2px);
+
+}
+
+
+.reglas {
+
+    margin-top: 20px;
+
+    color: #806b50;
+
+    font-size: 12px;
+
+}
+
+
+/* ========================================
+   QUIZ
+======================================== */
+
+.quiz-marco {
+
+    padding: 45px;
+
+}
+
+
+.encabezado {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 20px;
+
+}
+
+
+.etiqueta {
+
+    display: block;
+
+    font-family: "Cinzel", serif;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    color: #846d50;
+
+    margin-bottom: 4px;
+
+}
+
+
+#nombreJugador {
+
+    font-size: 15px;
+
+    color: var(--marron);
+
+}
+
+
+.contador {
+
+    border: 1px solid #a68b65;
+
+    padding: 8px 14px;
+
+    font-family: "Cinzel", serif;
+
+    color: var(--marron);
+
+}
+
+
+/* Barra */
+
+.progreso {
+
+    height: 5px;
+
+    background: #c4ac86;
+
+    margin-bottom: 35px;
+
+}
+
+
+#barraProgreso {
+
+    width: 20%;
+
+    height: 100%;
+
+    background: var(--marron);
+
+    transition: width 0.4s ease;
+
+}
+
+
+/* Pregunta */
+
+.pregunta-contenedor {
+
+    padding: 10px;
+
+}
+
+
+.numero-romantico {
+
+    font-family: "Cinzel", serif;
+
+    font-size: 12px;
+
+    letter-spacing: 3px;
+
+    color: #8b704e;
+
+}
+
+
+#pregunta {
+
+    font-size: clamp(25px, 5vw, 40px);
+
+    line-height: 1.25;
+
+    margin: 15px 0 30px;
+
+}
+
+
+/* ========================================
+   RESPUESTAS
+======================================== */
+
+.respuestas {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+
+}
+
+
+.respuesta {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    text-align: left;
+
+    padding: 17px;
+
+    border: 1px solid #a68b65;
+
+    background: rgba(248, 235, 207, 0.65);
+
+    color: var(--marron);
+
+    font-family: "Playfair Display", serif;
+
+    font-size: 16px;
+
+}
+
+
+.respuesta:hover:not(:disabled) {
+
+    background: #d8c19a;
+
+    transform: translateY(-2px);
+
+}
+
+
+.letra {
+
+    min-width: 32px;
+
+    height: 32px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border: 1px solid var(--marron);
+
+    border-radius: 50%;
+
+    font-family: "Cinzel", serif;
+
+    font-weight: bold;
+
+}
+
+
+.respuesta.correcta {
+
+    background: #9baf8c;
+
+    border-color: #526644;
+
+}
+
+
+.respuesta.incorrecta {
+
+    background: #c28d7d;
+
+    border-color: #743c30;
+
+}
+
+
+#mensaje {
+
+    min-height: 25px;
+
+    margin: 20px 0 10px;
+
+    font-weight: bold;
+
+    color: var(--marron);
+
+}
+
+
+/* ========================================
+   SIGUIENTE
+======================================== */
+
+.boton-siguiente {
+
+    padding: 14px 20px;
+
+    border: 1px solid var(--marron);
+
+    background: var(--marron);
+
+    color: var(--papel-claro);
+
+}
+
+
+.boton-siguiente:hover {
+
+    background: #68432b;
+
+}
+
+
+.oculto {
+
+    display: none;
+
+}
+
+
+/* ========================================
+   RESULTADO
+======================================== */
+
+.resultado-marco {
+
+    text-align: center;
+
+}
+
+
+.resultado-marco h1 {
+
+    font-size: clamp(40px, 7vw, 62px);
+
+}
+
+
+#nombreResultado {
+
+    margin-top: 10px;
+
+    font-size: 25px;
+
+}
+
+
+.resultado-numero {
+
+    margin: 25px 0 10px;
+
+    color: var(--marron);
+
+}
+
+
+#puntos {
+
+    font-family: "Cinzel", serif;
+
+    font-size: 100px;
+
+    font-weight: 600;
+
+}
+
+
+.maximo {
+
+    font-family: "Cinzel", serif;
+
+    font-size: 40px;
+
+    color: #987c58;
+
+}
+
+
+#mensajeFinal {
+
+    color: #725d44;
+
+    margin-bottom: 25px;
+
+}
+
+
+/* ========================================
+   CELULAR
+======================================== */
+
+@media (max-width: 650px) {
+
+    .contenedor {
+
+        padding: 15px 10px;
+
+    }
+
+    .marco,
+    .quiz-marco {
+
+        padding: 40px 25px;
+
+    }
+
+    .marco::before,
+    .quiz-marco::before {
+
+        inset: 8px;
+
+    }
+
+    h1 {
+
+        font-size: 43px;
+
+    }
+
+    .respuestas {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .encabezado {
+
+        align-items: flex-end;
+
+    }
+
+    .ilustracion {
+
+        height: 180px;
+
+    }
+
+}
+
+
+@media (max-width: 400px) {
+
+    .marco,
+    .quiz-marco {
+
+        padding: 35px 18px;
+
+    }
+
+    h1 {
+
+        font-size: 36px;
+
+    }
+
+    #puntos {
+
+        font-size: 80px;
+
+    }
+
+  }
