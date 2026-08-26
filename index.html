@@ -1,271 +1,341 @@
-<!DOCTYPE html>  <html lang="es">  
-<head>  
-    <meta charset="UTF-8">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Quiz: Las aventuras de Werther</title>  
+<!DOCTYPE html>
+<html lang="es">
 
-<link rel="stylesheet" href="style.css">  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Tipografías -->  
-<link rel="preconnect" href="https://fonts.googleapis.com">  
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    <title>Quiz: Las aventuras de Werther</title>
 
-</head>  <body>  <!-- Fondo decorativo -->  
-<div class="fondo"></div>  
+    <link rel="stylesheet" href="style.css">
 
-<main class="contenedor">  
+    <!-- Tipografías -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- =========================  
-         PANTALLA DE INICIO  
-    ========================== -->  
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
+        rel="stylesheet"
+    >
+</head>
 
-    <section id="inicio" class="pantalla activa">  
+<body>
 
-        <div class="marco">  
+    <!-- Fondo decorativo -->
+    <div class="fondo"></div>
 
-            <div class="ornamento superior">  
-                ❦  
-            </div>  
+    <main class="contenedor">
 
-            <p class="pequeno">QUIZ LITERARIO</p>  
+        <!-- =========================
+             PANTALLA DE INICIO
+        ========================== -->
 
-            <h1>  
-                Las aventuras<br>  
-                de Werther  
-            </h1>  
+        <section id="inicio" class="pantalla activa">
 
-            <div class="separador">  
-                <span>✦</span>  
-                <span>❧</span>  
-                <span>✦</span>  
-            </div>  
+            <div class="marco">
 
-            <h2>  
-                Wolfgang von Goethe  
-            </h2>  
+                <div class="ornamento superior">
+                    ❦
+                </div>
 
-            <!-- Ilustración provisional -->  
-            <div class="ilustracion">  
+                <p class="pequeno">
+                    QUIZ LITERARIO
+                </p>
 
-                <div class="luna"></div>  
+                <h1>
+                    Las aventuras<br>
+                    de Werther
+                </h1>
 
-                <div class="montana montana-1"></div>  
-                <div class="montana montana-2"></div>  
+                <div class="separador">
+                    <span>✦</span>
+                    <span>❧</span>
+                    <span>✦</span>
+                </div>
 
-                <div class="arbol">  
-                    <div class="tronco"></div>  
-                    <div class="rama rama-1"></div>  
-                    <div class="rama rama-2"></div>  
-                    <div class="rama rama-3"></div>  
-                </div>  
+                <h2>
+                    Wolfgang von Goethe
+                </h2>
 
-                <div class="figura">  
-                    <div class="cabeza"></div>  
-                    <div class="cuerpo"></div>  
-                </div>  
+                <!-- Ilustración -->
 
-            </div>  
+                <div class="ilustracion">
 
-            <p class="descripcion">  
-                Pon a prueba tus conocimientos sobre una de  
-                las obras más representativas del Romanticismo.  
-            </p>  
+                    <div class="luna"></div>
 
-            <div class="entrada">  
+                    <div class="montana montana-1"></div>
+                    <div class="montana montana-2"></div>
 
-                <label for="nombre">  
-                    Escribe tu nombre  
-                </label>  
+                    <div class="arbol">
+                        <div class="tronco"></div>
+                        <div class="rama rama-1"></div>
+                        <div class="rama rama-2"></div>
+                        <div class="rama rama-3"></div>
+                    </div>
 
-                <input  
-                    type="text"  
-                    id="nombre"  
-                    placeholder="Tu nombre..."  
-                    maxlength="40"  
-                >  
+                    <div class="figura">
+                        <div class="cabeza"></div>
+                        <div class="cuerpo"></div>
+                    </div>
 
-                <button id="comenzar">  
-                    Comenzar el Quiz  
-                </button>  
+                </div>
 
-            </div>  
+                <p class="descripcion">
+                    Pon a prueba tus conocimientos sobre una de
+                    las obras más representativas del Romanticismo.
+                </p>
 
-            <p class="reglas">  
-                5 preguntas · 1 punto por pregunta · Máximo 5 puntos  
-            </p>  
+                <div class="entrada">
 
-            <div class="ornamento inferior">  
-                ❧  
-            </div>  
+                    <label for="nombre">
+                        Escribe tu nombre
+                    </label>
 
-        </div>  
+                    <input
+                        type="text"
+                        id="nombre"
+                        placeholder="Tu nombre..."
+                        maxlength="40"
+                    >
 
-    </section>  
+                    <button id="comenzar">
+                        Comenzar el Quiz
+                    </button>
 
+                </div>
 
-    <!-- =========================  
-         PANTALLA DEL QUIZ  
-    ========================== -->  
+                <p class="reglas">
+                    5 preguntas · 1 punto por pregunta · Máximo 5 puntos
+                </p>
 
-    <section id="quiz" class="pantalla">  
+                <div class="ornamento inferior">
+                    ❧
+                </div>
 
-        <div class="quiz-marco">  
+            </div>
 
-            <header class="encabezado">  
+        </section>
 
-                <div>  
-                    <span class="etiqueta">  
-                        QUIZ DE LITERATURA  
-                    </span>  
 
-                    <span id="nombreJugador">  
-                        Estudiante  
-                    </span>  
-                </div>  
+        <!-- =========================
+             PANTALLA DEL QUIZ
+        ========================== -->
 
-                <div class="contador">  
-                    <span id="numeroPregunta">1</span>  
-                    <span> / 5</span>  
-                </div>  
+        <section id="quiz" class="pantalla">
 
-            </header>  
+            <div class="quiz-marco">
 
+                <header class="encabezado">
 
-            <!-- Barra de progreso -->  
+                    <div>
 
-            <div class="progreso">  
-                <div id="barraProgreso"></div>  
-            </div>  
+                        <span class="etiqueta">
+                            QUIZ DE LITERATURA
+                        </span>
 
+                        <span id="nombreJugador">
+                            Estudiante
+                        </span>
 
-            <div class="pregunta-contenedor">  
+                    </div>
 
-                <span class="numero-romantico">  
-                    PREGUNTA I  
-                </span>  
+                    <div class="contador">
 
-                <h2 id="pregunta">  
-                    Aquí aparecerá la pregunta.  
-                </h2>  
+                        <span id="numeroPregunta">
+                            1
+                        </span>
 
+                        <span>
+                            / 5
+                        </span>
 
-                <!-- Respuestas -->  
+                    </div>
 
-                <div id="respuestas" class="respuestas">  
+                </header>
 
-                    <button class="respuesta">  
-                        <span class="letra">A</span>  
-                        <span class="texto">  
-                            Respuesta A  
-                        </span>  
-                    </button>  
 
-                    <button class="respuesta">  
-                        <span class="letra">B</span>  
-                        <span class="texto">  
-                            Respuesta B  
-                        </span>  
-                    </button>  
+                <!-- Barra de progreso -->
 
-                    <button class="respuesta">  
-                        <span class="letra">C</span>  
-                        <span class="texto">  
-                            Respuesta C  
-                        </span>  
-                    </button>  
+                <div class="progreso">
 
-                    <button class="respuesta">  
-                        <span class="letra">D</span>  
-                        <span class="texto">  
-                            Respuesta D  
-                        </span>  
-                    </button>  
+                    <div id="barraProgreso"></div>
 
-                </div>  
+                </div>
 
 
-                <p id="mensaje"></p>  
+                <div class="pregunta-contenedor">
 
-                <button  
-                    id="siguiente"  
-                    class="boton-siguiente oculto"  
-                >  
-                    Siguiente pregunta ❧  
-                </button>  
+                    <span class="numero-romantico">
+                        PREGUNTA I
+                    </span>
 
-            </div>  
+                    <h2 id="pregunta">
+                        Aquí aparecerá la pregunta.
+                    </h2>
 
-        </div>  
 
-    </section>  
+                    <!-- Respuestas -->
 
+                    <div
+                        id="respuestas"
+                        class="respuestas"
+                    >
 
-    <!-- =========================  
-         PANTALLA FINAL  
-    ========================== -->  
+                        <button class="respuesta">
 
-    <section id="resultado" class="pantalla">  
+                            <span class="letra">
+                                A
+                            </span>
 
-        <div class="marco resultado-marco">  
+                            <span class="texto">
+                                Respuesta A
+                            </span>
 
-            <div class="ornamento superior">  
-                ❦  
-            </div>  
+                        </button>
 
-            <p class="pequeno">  
-                FIN DEL QUIZ  
-            </p>  
 
-            <h1>  
-                Tu resultado  
-            </h1>  
+                        <button class="respuesta">
 
-            <div class="separador">  
-                <span>✦</span>  
-                <span>❧</span>  
-                <span>✦</span>  
-            </div>  
+                            <span class="letra">
+                                B
+                            </span>
 
-            <h2 id="nombreResultado">  
-                Estudiante  
-            </h2>  
+                            <span class="texto">
+                                Respuesta B
+                            </span>
 
-            <div class="resultado-numero">  
+                        </button>
 
-                <span id="puntos">  
-                    0  
-                </span>  
 
-                <span class="maximo">  
-                    / 5  
-                </span>  
+                        <button class="respuesta">
 
-            </div>  
+                            <span class="letra">
+                                C
+                            </span>
 
-            <p id="mensajeFinal">  
-                Has terminado el quiz.  
-            </p>  
+                            <span class="texto">
+                                Respuesta C
+                            </span>
 
-            <button  
-                id="volverInicio"  
-                class="boton-final"  
-            >  
-                Volver al inicio  
-            </button>  
+                        </button>
 
-            <div class="ornamento inferior">  
-                ❧  
-            </div>  
 
-        </div>  
+                        <button class="respuesta">
 
-    </section>  
+                            <span class="letra">
+                                D
+                            </span>
 
-</main>  
+                            <span class="texto">
+                                Respuesta D
+                            </span>
 
+                        </button>
 
-<!-- JavaScript -->  
-<script src="game.js"></script>
+                    </div>
 
-</body>  
+
+                    <p id="mensaje"></p>
+
+
+                    <button
+                        id="siguiente"
+                        class="boton-siguiente oculto"
+                    >
+                        Siguiente pregunta ❧
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             PANTALLA FINAL
+        ========================== -->
+
+        <section id="resultado" class="pantalla">
+
+            <div class="marco resultado-marco">
+
+                <div class="ornamento superior">
+                    ❦
+                </div>
+
+                <p class="pequeno">
+                    FIN DEL QUIZ
+                </p>
+
+                <h1>
+                    Tu resultado
+                </h1>
+
+                <div class="separador">
+
+                    <span>✦</span>
+                    <span>❧</span>
+                    <span>✦</span>
+
+                </div>
+
+                <h2 id="nombreResultado">
+                    Estudiante
+                </h2>
+
+
+                <div class="resultado-numero">
+
+                    <span id="puntos">
+                        0
+                    </span>
+
+                    <span class="maximo">
+                        / 5
+                    </span>
+
+                </div>
+
+
+                <p id="mensajeFinal">
+                    Has terminado el quiz.
+                </p>
+
+
+                <button
+                    id="volverInicio"
+                    class="boton-final"
+                >
+                    Volver al inicio
+                </button>
+
+
+                <div class="ornamento inferior">
+                    ❧
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==================================================
+         SUPABASE
+         DEBE CARGARSE ANTES DE game.js
+    ================================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <!-- ==================================================
+         JAVASCRIPT DEL QUIZ
+    ================================================== -->
+
+    <script src="game.js"></script>
+
+</body>
+
 </html>
