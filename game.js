@@ -8,16 +8,18 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_xoORP9IGxU6xSNDGtCG77w_52ECZyHq";
 
-const supabaseClient =
-    supabase.createClient(
+let supabaseClient = null;
+
+if (window.supabase) {
+    supabaseClient = window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
+}
 
 
 // ======================================================
-// QUIZ: LAS AVENTURAS DE WERTHER
-// Wolfgang von Goethe
+// PREGUNTAS
 // ======================================================
 
 const preguntas = [
@@ -34,7 +36,7 @@ const preguntas = [
     },
 
     {
-        pregunta: "¿Cuál es el nombre completo del protagonista?",
+        pregunta: "¿Cuál es el nombre del protagonista de la obra?",
         opciones: [
             "Johann Werther",
             "Werther von Goethe",
@@ -92,23 +94,15 @@ let nombreJugador = "";
 
 
 // ======================================================
-// ELEMENTOS DEL HTML
+// ELEMENTOS
 // ======================================================
 
-const inicio =
-    document.getElementById("inicio");
+const inicio = document.getElementById("inicio");
+const quiz = document.getElementById("quiz");
+const resultado = document.getElementById("resultado");
 
-const quiz =
-    document.getElementById("quiz");
-
-const resultado =
-    document.getElementById("resultado");
-
-const nombreInput =
-    document.getElementById("nombre");
-
-const comenzar =
-    document.getElementById("comenzar");
+const nombreInput = document.getElementById("nombre");
+const comenzar = document.getElementById("comenzar");
 
 const nombreJugadorElemento =
     document.getElementById("nombreJugador");
@@ -148,7 +142,7 @@ const volverInicio =
 
 
 // ======================================================
-// COMENZAR QUIZ
+// COMENZAR
 // ======================================================
 
 comenzar.addEventListener(
@@ -185,7 +179,6 @@ function comenzarQuiz() {
     }
 
     preguntaActual = 0;
-
     puntos = 0;
 
     nombreJugadorElemento.textContent =
@@ -198,7 +191,7 @@ function comenzarQuiz() {
 
 
 // ======================================================
-// MOSTRAR PREGUNTA
+// CARGAR PREGUNTA
 // ======================================================
 
 function cargarPregunta() {
@@ -206,38 +199,29 @@ function cargarPregunta() {
     const datos =
         preguntas[preguntaActual];
 
-
     numeroPregunta.textContent =
         `${preguntaActual + 1} / ${TOTAL_PREGUNTAS}`;
-
 
     numeroRomantico.textContent =
         `PREGUNTA ${convertirNumeroRomano(
             preguntaActual + 1
         )}`;
 
-
     const progreso =
         ((preguntaActual + 1) /
         TOTAL_PREGUNTAS) * 100;
 
-
     barraProgreso.style.width =
         `${progreso}%`;
 
-
     preguntaElemento.textContent =
         datos.pregunta;
-
 
     respuestas.innerHTML = "";
 
     mensaje.textContent = "";
 
-    siguiente.classList.add(
-        "oculto"
-    );
-
+    siguiente.classList.add("oculto");
 
     datos.opciones.forEach(
         function(texto, indice) {
@@ -245,41 +229,26 @@ function cargarPregunta() {
             const boton =
                 document.createElement("button");
 
-            boton.classList.add(
-                "respuesta"
-            );
-
+            boton.classList.add("respuesta");
 
             const letra =
                 document.createElement("span");
 
-            letra.classList.add(
-                "letra"
-            );
+            letra.classList.add("letra");
 
             letra.textContent =
-                String.fromCharCode(
-                    65 + indice
-                );
-
+                String.fromCharCode(65 + indice);
 
             const textoRespuesta =
                 document.createElement("span");
 
-            textoRespuesta.classList.add(
-                "texto"
-            );
+            textoRespuesta.classList.add("texto");
 
             textoRespuesta.textContent =
                 texto;
 
-
             boton.appendChild(letra);
-
-            boton.appendChild(
-                textoRespuesta
-            );
-
+            boton.appendChild(textoRespuesta);
 
             boton.addEventListener(
                 "click",
@@ -293,19 +262,15 @@ function cargarPregunta() {
                 }
             );
 
-
-            respuestas.appendChild(
-                boton
-            );
+            respuestas.appendChild(boton);
 
         }
     );
-
 }
 
 
 // ======================================================
-// COMPROBAR RESPUESTA
+// RESPONDER
 // ======================================================
 
 function responder(
@@ -316,12 +281,8 @@ function responder(
     const datos =
         preguntas[preguntaActual];
 
-
     const botones =
-        document.querySelectorAll(
-            ".respuesta"
-        );
-
+        document.querySelectorAll(".respuesta");
 
     botones.forEach(
         function(boton) {
@@ -330,7 +291,6 @@ function responder(
 
         }
     );
-
 
     if (
         respuestaSeleccionada ===
@@ -352,24 +312,17 @@ function responder(
             "incorrecta"
         );
 
-
         botones[
             datos.correcta
         ].classList.add(
             "correcta"
         );
 
-
         mensaje.textContent =
             "✦ Respuesta incorrecta.";
-
     }
 
-
-    siguiente.classList.remove(
-        "oculto"
-    );
-
+    siguiente.classList.remove("oculto");
 
     if (
         preguntaActual ===
@@ -383,14 +336,12 @@ function responder(
 
         siguiente.textContent =
             "Siguiente pregunta ❧";
-
     }
-
 }
 
 
 // ======================================================
-// SIGUIENTE PREGUNTA
+// SIGUIENTE
 // ======================================================
 
 siguiente.addEventListener(
@@ -398,7 +349,6 @@ siguiente.addEventListener(
     function() {
 
         preguntaActual++;
-
 
         if (
             preguntaActual <
@@ -410,15 +360,13 @@ siguiente.addEventListener(
         } else {
 
             mostrarResultado();
-
         }
-
     }
 );
 
 
 // ======================================================
-// MOSTRAR RESULTADO
+// RESULTADO
 // ======================================================
 
 async function mostrarResultado() {
@@ -426,12 +374,8 @@ async function mostrarResultado() {
     nombreResultado.textContent =
         nombreJugador;
 
-
     puntosElemento.textContent =
         puntos;
-
-
-    // Nota sobre 5.0
 
     const nota =
         Number(
@@ -440,9 +384,6 @@ async function mostrarResultado() {
                 TOTAL_PREGUNTAS) * 5
             ).toFixed(1)
         );
-
-
-    // Mensaje final
 
     if (puntos === 5) {
 
@@ -458,44 +399,43 @@ async function mostrarResultado() {
 
         mensajeFinal.textContent =
             "Buen intento. Puedes volver a revisar la obra.";
-
     }
 
 
-    // ==================================================
-    // GUARDAR EN SUPABASE
-    // ==================================================
+    // Guardar resultado
+    if (supabaseClient) {
 
-    const { data, error } =
-        await supabaseClient
-            .from("resultados")
-            .insert([
-                {
+        const { error } =
+            await supabaseClient
+                .from("resultados")
+                .insert({
                     nombre: nombreJugador,
                     puntos: puntos,
                     nota: nota
-                }
-            ]);
+                });
 
+        if (error) {
 
-    if (error) {
+            console.error(
+                "Error guardando resultado:",
+                error
+            );
 
-        console.error(
-            "Error guardando resultado:",
-            error
-        );
+        } else {
+
+            console.log(
+                "Resultado guardado correctamente"
+            );
+        }
 
     } else {
 
-        console.log(
-            "Resultado guardado correctamente"
+        console.error(
+            "Supabase no se pudo cargar."
         );
-
     }
 
-
     mostrarPantalla(resultado);
-
 }
 
 
@@ -513,39 +453,28 @@ volverInicio.addEventListener(
             "Tu nombre...";
 
         mostrarPantalla(inicio);
-
     }
 );
 
 
 // ======================================================
-// CAMBIAR DE PANTALLA
+// CAMBIAR PANTALLA
 // ======================================================
 
 function mostrarPantalla(pantalla) {
 
-    inicio.classList.remove(
-        "activa"
-    );
+    inicio.classList.remove("activa");
 
-    quiz.classList.remove(
-        "activa"
-    );
+    quiz.classList.remove("activa");
 
-    resultado.classList.remove(
-        "activa"
-    );
+    resultado.classList.remove("activa");
 
-
-    pantalla.classList.add(
-        "activa"
-    );
-
+    pantalla.classList.add("activa");
 }
 
 
 // ======================================================
-// NÚMEROS ROMANOS
+// ROMANOS
 // ======================================================
 
 function convertirNumeroRomano(numero) {
@@ -558,7 +487,5 @@ function convertirNumeroRomano(numero) {
         "V"
     ];
 
-
     return romanos[numero - 1];
-
 }
