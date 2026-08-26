@@ -3,6 +3,24 @@
 // Wolfgang von Goethe
 // ======================================================
 
+
+// ======================================================
+// CONEXIÓN CON SUPABASE
+// ======================================================
+
+const SUPABASE_URL =
+    "https://pqmlwbsafihcwfobvjud.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_xoORP9IGxU6xSNDGtCG77w_52ECZyHq";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+
 // ======================================================
 // AQUÍ PUEDES CAMBIAR LAS PREGUNTAS
 // ======================================================
@@ -76,6 +94,7 @@ const TOTAL_PREGUNTAS = 5;
 let preguntaActual = 0;
 let puntos = 0;
 let nombreJugador = "";
+let resultadoGuardado = false;
 
 
 // ======================================================
@@ -130,21 +149,29 @@ const volverInicio =
 // COMENZAR QUIZ
 // ======================================================
 
-comenzar.addEventListener("click", comenzarQuiz);
+comenzar.addEventListener(
+    "click",
+    comenzarQuiz
+);
 
 
-nombreInput.addEventListener("keydown", function(evento) {
+nombreInput.addEventListener(
+    "keydown",
+    function(evento) {
 
-    if (evento.key === "Enter") {
-        comenzarQuiz();
+        if (evento.key === "Enter") {
+            comenzarQuiz();
+        }
+
     }
-
-});
+);
 
 
 function comenzarQuiz() {
 
-    nombreJugador = nombreInput.value.trim();
+    nombreJugador =
+        nombreInput.value.trim();
+
 
     if (nombreJugador === "") {
 
@@ -159,9 +186,12 @@ function comenzarQuiz() {
 
     preguntaActual = 0;
     puntos = 0;
+    resultadoGuardado = false;
+
 
     nombreJugadorElemento.textContent =
         nombreJugador;
+
 
     mostrarPantalla(quiz);
 
@@ -179,304 +209,20 @@ function cargarPregunta() {
         preguntas[preguntaActual];
 
 
-    // Número de pregunta
-
     numeroPregunta.textContent =
         `${preguntaActual + 1} / ${TOTAL_PREGUNTAS}`;
 
 
     numeroRomantico.textContent =
-        `PREGUNTA ${convertirNumeroRomano(preguntaActual + 1)}`;
+        `PREGUNTA ${convertirNumeroRomano(
+            preguntaActual + 1
+        )}`;
 
-
-    // Barra de progreso
 
     const progreso =
-        ((preguntaActual + 1) / TOTAL_PREGUNTAS) * 100;
+        ((preguntaActual + 1) /
+        TOTAL_PREGUNTAS) * 100;
+
 
     barraProgreso.style.width =
-        `${progreso}%`;
-
-
-    // Pregunta
-
-    preguntaElemento.textContent =
-        preguntaActualDatos.pregunta;
-
-
-    // Limpiar respuestas anteriores
-
-    respuestas.innerHTML = "";
-
-    mensaje.textContent = "";
-
-    siguiente.classList.add("oculto");
-
-
-    // Crear respuestas
-
-    preguntaActualDatos.opciones.forEach(
-        function(texto, indice) {
-
-            const boton =
-                document.createElement("button");
-
-            boton.classList.add("respuesta");
-
-
-            const letra =
-                document.createElement("span");
-
-            letra.classList.add("letra");
-
-            letra.textContent =
-                String.fromCharCode(65 + indice);
-
-
-            const textoRespuesta =
-                document.createElement("span");
-
-            textoRespuesta.classList.add("texto");
-
-            textoRespuesta.textContent =
-                texto;
-
-
-            boton.appendChild(letra);
-
-            boton.appendChild(textoRespuesta);
-
-
-            boton.addEventListener(
-                "click",
-                function() {
-
-                    responder(
-                        boton,
-                        indice
-                    );
-
-                }
-            );
-
-
-            respuestas.appendChild(boton);
-
-        }
-    );
-
-}
-
-
-// ======================================================
-// COMPROBAR RESPUESTA
-// ======================================================
-
-function responder(
-    botonSeleccionado,
-    respuestaSeleccionada
-) {
-
-    const datos =
-        preguntas[preguntaActual];
-
-    const botones =
-        document.querySelectorAll(".respuesta");
-
-
-    // Evitar que pueda responder varias veces
-
-    botones.forEach(function(boton) {
-
-        boton.disabled = true;
-
-    });
-
-
-    // Respuesta correcta
-
-    if (
-        respuestaSeleccionada ===
-        datos.correcta
-    ) {
-
-        puntos++;
-
-        botonSeleccionado.classList.add(
-            "correcta"
-        );
-
-        mensaje.textContent =
-            "✦ ¡Respuesta correcta!";
-
-
-    } else {
-
-        botonSeleccionado.classList.add(
-            "incorrecta"
-        );
-
-
-        // Mostrar cuál era la correcta
-
-        botones[
-            datos.correcta
-        ].classList.add(
-            "correcta"
-        );
-
-
-        mensaje.textContent =
-            "✦ Respuesta incorrecta.";
-
-    }
-
-
-    // Mostrar botón siguiente
-
-    siguiente.classList.remove(
-        "oculto"
-    );
-
-
-    // Cambiar texto en última pregunta
-
-    if (
-        preguntaActual ===
-        TOTAL_PREGUNTAS - 1
-    ) {
-
-        siguiente.textContent =
-            "Ver mi resultado ❧";
-
-    } else {
-
-        siguiente.textContent =
-            "Siguiente pregunta ❧";
-
-    }
-
-}
-
-
-// ======================================================
-// SIGUIENTE PREGUNTA
-// ======================================================
-
-siguiente.addEventListener(
-    "click",
-    function() {
-
-        preguntaActual++;
-
-
-        if (
-            preguntaActual <
-            TOTAL_PREGUNTAS
-        ) {
-
-            cargarPregunta();
-
-        } else {
-
-            mostrarResultado();
-
-        }
-
-    }
-);
-
-
-// ======================================================
-// MOSTRAR RESULTADO
-// ======================================================
-
-function mostrarResultado() {
-
-    nombreResultado.textContent =
-        nombreJugador;
-
-
-    puntosElemento.textContent =
-        puntos;
-
-
-    // Mensaje según puntuación
-
-    if (puntos === 5) {
-
-        mensajeFinal.textContent =
-            "¡Excelente! Conoces muy bien la obra de Werther.";
-
-    } else if (puntos >= 3) {
-
-        mensajeFinal.textContent =
-            "¡Buen trabajo! Has demostrado buenos conocimientos.";
-
-    } else {
-
-        mensajeFinal.textContent =
-            "Buen intento. Puedes volver a revisar la obra.";
-
-    }
-
-
-    mostrarPantalla(resultado);
-
-}
-
-
-// ======================================================
-// VOLVER AL INICIO
-// ======================================================
-
-volverInicio.addEventListener(
-    "click",
-    function() {
-
-        nombreInput.value = "";
-
-        nombreInput.placeholder =
-            "Tu nombre...";
-
-        mostrarPantalla(inicio);
-
-    }
-);
-
-
-// ======================================================
-// CAMBIAR DE PANTALLA
-// ======================================================
-
-function mostrarPantalla(pantalla) {
-
-    inicio.classList.remove("activa");
-
-    quiz.classList.remove("activa");
-
-    resultado.classList.remove("activa");
-
-
-    pantalla.classList.add("activa");
-
-}
-
-
-// ======================================================
-// NÚMEROS ROMANOS
-// ======================================================
-
-function convertirNumeroRomano(numero) {
-
-    const romanos = [
-        "I",
-        "II",
-        "III",
-        "IV",
-        "V"
-    ];
-
-    return romanos[numero - 1];
-
-      }
+        `${pro
