@@ -1,100 +1,83 @@
 // ======================================================
-// SUPABASE
+// QUIZ: LAS AVENTURAS DE WERTHER
+// Wolfgang von Goethe
 // ======================================================
 
-const SUPABASE_URL =
-    "https://pqmlwbsafihcwfobvjud.supabase.co";
-
-const SUPABASE_KEY =
-    "sb_publishable_xoORP9IGxU6xSNDGtCG77w_52ECZyHq";
-
-let supabaseClient = null;
-
-if (window.supabase) {
-    supabaseClient = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
-}
-
-
 // ======================================================
-// PREGUNTAS
+// AQUÍ PUEDES CAMBIAR LAS PREGUNTAS
 // ======================================================
 
 const preguntas = [
 
-    {
-        pregunta: "¿En qué año fue publicada por primera vez la obra de Goethe?",
-        opciones: [
-            "1774",
-            "1789",
-            "1802",
-            "1815"
-        ],
-        correcta: 0
-    },
+{  
+    pregunta: "¿En qué año fue publicada por primera vez la obra de Goethe?",  
+    opciones: [  
+        "1774",  
+        "1789",  
+        "1802",  
+        "1815"  
+    ],  
+    correcta: 0  
+},  
 
-    {
-        pregunta: "¿Cuál es el nombre del protagonista de la obra?",
-        opciones: [
-            "Johann Werther",
-            "Werther von Goethe",
-            "Werther",
-            "Wilhelm Werther"
-        ],
-        correcta: 2
-    },
+{  
+    pregunta: "¿Cuál es el nombre completo del protagonista?",  
+    opciones: [  
+        "Johann Werther",  
+        "Werther von Goethe",  
+        "Werther",  
+        "Wilhelm Werther"  
+    ],  
+    correcta: 2  
+},  
 
-    {
-        pregunta: "¿De quién se enamora profundamente Werther?",
-        opciones: [
-            "Charlotte",
-            "Sophie",
-            "Clara",
-            "Elisabeth"
-        ],
-        correcta: 0
-    },
+{  
+    pregunta: "¿De quién se enamora profundamente Werther?",  
+    opciones: [  
+        "Charlotte",  
+        "Sophie",  
+        "Clara",  
+        "Elisabeth"  
+    ],  
+    correcta: 0  
+},  
 
-    {
-        pregunta: "¿Qué movimiento literario representa principalmente esta obra?",
-        opciones: [
-            "Realismo",
-            "Romanticismo",
-            "Naturalismo",
-            "Modernismo"
-        ],
-        correcta: 1
-    },
+{  
+    pregunta: "¿Qué movimiento literario representa principalmente esta obra?",  
+    opciones: [  
+        "Realismo",  
+        "Romanticismo",  
+        "Naturalismo",  
+        "Modernismo"  
+    ],  
+    correcta: 1  
+},  
 
-    {
-        pregunta: "¿Qué característica representa mejor los sentimientos de Werther?",
-        opciones: [
-            "La razón por encima de las emociones",
-            "La indiferencia ante el amor",
-            "La intensidad de sus emociones y su amor imposible",
-            "El interés por conseguir riqueza"
-        ],
-        correcta: 2
-    }
+{  
+    pregunta: "¿Qué característica representa mejor los sentimientos de Werther?",  
+    opciones: [  
+        "La razón por encima de las emociones",  
+        "La indiferencia ante el amor",  
+        "La intensidad de sus emociones y su amor imposible",  
+        "El interés por conseguir riqueza"  
+    ],  
+    correcta: 2  
+}
 
 ];
-
 
 // ======================================================
 // CONFIGURACIÓN
 // ======================================================
 
-const TOTAL_PREGUNTAS = preguntas.length;
+const TOTAL_PREGUNTAS = 5;
 
 let preguntaActual = 0;
 let puntos = 0;
 let nombreJugador = "";
 
-
 // ======================================================
-// ELEMENTOS
+// ELEMENTOS DEL HTML
 // ======================================================
 
 const inicio = document.getElementById("inicio");
@@ -105,387 +88,386 @@ const nombreInput = document.getElementById("nombre");
 const comenzar = document.getElementById("comenzar");
 
 const nombreJugadorElemento =
-    document.getElementById("nombreJugador");
+document.getElementById("nombreJugador");
 
 const numeroPregunta =
-    document.getElementById("numeroPregunta");
+document.getElementById("numeroPregunta");
 
 const barraProgreso =
-    document.getElementById("barraProgreso");
+document.getElementById("barraProgreso");
 
 const numeroRomantico =
-    document.querySelector(".numero-romantico");
+document.querySelector(".numero-romantico");
 
 const preguntaElemento =
-    document.getElementById("pregunta");
+document.getElementById("pregunta");
 
 const respuestas =
-    document.getElementById("respuestas");
+document.getElementById("respuestas");
 
 const mensaje =
-    document.getElementById("mensaje");
+document.getElementById("mensaje");
 
 const siguiente =
-    document.getElementById("siguiente");
+document.getElementById("siguiente");
 
 const nombreResultado =
-    document.getElementById("nombreResultado");
+document.getElementById("nombreResultado");
 
 const puntosElemento =
-    document.getElementById("puntos");
+document.getElementById("puntos");
 
 const mensajeFinal =
-    document.getElementById("mensajeFinal");
+document.getElementById("mensajeFinal");
 
 const volverInicio =
-    document.getElementById("volverInicio");
-
+document.getElementById("volverInicio");
 
 // ======================================================
-// COMENZAR
+// COMENZAR QUIZ
 // ======================================================
 
-comenzar.addEventListener(
-    "click",
-    comenzarQuiz
-);
+comenzar.addEventListener("click", comenzarQuiz);
 
+nombreInput.addEventListener("keydown", function(evento) {
 
-nombreInput.addEventListener(
-    "keydown",
-    function(evento) {
+if (evento.key === "Enter") {  
+    comenzarQuiz();  
+}
 
-        if (evento.key === "Enter") {
-            comenzarQuiz();
-        }
-
-    }
-);
-
+});
 
 function comenzarQuiz() {
 
-    nombreJugador =
-        nombreInput.value.trim();
+nombreJugador = nombreInput.value.trim();  
 
-    if (nombreJugador === "") {
+if (nombreJugador === "") {  
 
-        nombreInput.focus();
+    nombreInput.focus();  
 
-        nombreInput.placeholder =
-            "Primero escribe tu nombre...";
+    nombreInput.placeholder =  
+        "Primero escribe tu nombre...";  
 
-        return;
-    }
+    return;  
+}  
 
-    preguntaActual = 0;
-    puntos = 0;
 
-    nombreJugadorElemento.textContent =
-        nombreJugador;
+preguntaActual = 0;  
+puntos = 0;  
 
-    mostrarPantalla(quiz);
+nombreJugadorElemento.textContent =  
+    nombreJugador;  
 
-    cargarPregunta();
+mostrarPantalla(quiz);  
+
+cargarPregunta();
+
 }
 
-
 // ======================================================
-// CARGAR PREGUNTA
+// MOSTRAR PREGUNTA
 // ======================================================
 
 function cargarPregunta() {
 
-    const datos =
-        preguntas[preguntaActual];
+const preguntaActualDatos =  
+    preguntas[preguntaActual];  
 
-    numeroPregunta.textContent =
-        `${preguntaActual + 1} / ${TOTAL_PREGUNTAS}`;
 
-    numeroRomantico.textContent =
-        `PREGUNTA ${convertirNumeroRomano(
-            preguntaActual + 1
-        )}`;
+// Número de pregunta  
 
-    const progreso =
-        ((preguntaActual + 1) /
-        TOTAL_PREGUNTAS) * 100;
+numeroPregunta.textContent =  
+    `${preguntaActual + 1} / ${TOTAL_PREGUNTAS}`;  
 
-    barraProgreso.style.width =
-        `${progreso}%`;
 
-    preguntaElemento.textContent =
-        datos.pregunta;
+numeroRomantico.textContent =  
+    `PREGUNTA ${convertirNumeroRomano(preguntaActual + 1)}`;  
 
-    respuestas.innerHTML = "";
 
-    mensaje.textContent = "";
+// Barra de progreso  
 
-    siguiente.classList.add("oculto");
+const progreso =  
+    ((preguntaActual + 1) / TOTAL_PREGUNTAS) * 100;  
 
-    datos.opciones.forEach(
-        function(texto, indice) {
+barraProgreso.style.width =  
+    `${progreso}%`;  
 
-            const boton =
-                document.createElement("button");
 
-            boton.classList.add("respuesta");
+// Pregunta  
 
-            const letra =
-                document.createElement("span");
+preguntaElemento.textContent =  
+    preguntaActualDatos.pregunta;  
 
-            letra.classList.add("letra");
 
-            letra.textContent =
-                String.fromCharCode(65 + indice);
+// Limpiar respuestas anteriores  
 
-            const textoRespuesta =
-                document.createElement("span");
+respuestas.innerHTML = "";  
 
-            textoRespuesta.classList.add("texto");
+mensaje.textContent = "";  
 
-            textoRespuesta.textContent =
-                texto;
+siguiente.classList.add("oculto");  
 
-            boton.appendChild(letra);
-            boton.appendChild(textoRespuesta);
 
-            boton.addEventListener(
-                "click",
-                function() {
+// Crear respuestas  
 
-                    responder(
-                        boton,
-                        indice
-                    );
+preguntaActualDatos.opciones.forEach(  
+    function(texto, indice) {  
 
-                }
-            );
+        const boton =  
+            document.createElement("button");  
 
-            respuestas.appendChild(boton);
+        boton.classList.add("respuesta");  
 
-        }
-    );
+
+        const letra =  
+            document.createElement("span");  
+
+        letra.classList.add("letra");  
+
+        letra.textContent =  
+            String.fromCharCode(65 + indice);  
+
+
+        const textoRespuesta =  
+            document.createElement("span");  
+
+        textoRespuesta.classList.add("texto");  
+
+        textoRespuesta.textContent =  
+            texto;  
+
+
+        boton.appendChild(letra);  
+
+        boton.appendChild(textoRespuesta);  
+
+
+        boton.addEventListener(  
+            "click",  
+            function() {  
+
+                responder(  
+                    boton,  
+                    indice  
+                );  
+
+            }  
+        );  
+
+
+        respuestas.appendChild(boton);  
+
+    }  
+);
+
 }
 
-
 // ======================================================
-// RESPONDER
+// COMPROBAR RESPUESTA
 // ======================================================
 
 function responder(
-    botonSeleccionado,
-    respuestaSeleccionada
+botonSeleccionado,
+respuestaSeleccionada
 ) {
 
-    const datos =
-        preguntas[preguntaActual];
+const datos =  
+    preguntas[preguntaActual];  
 
-    const botones =
-        document.querySelectorAll(".respuesta");
+const botones =  
+    document.querySelectorAll(".respuesta");  
 
-    botones.forEach(
-        function(boton) {
 
-            boton.disabled = true;
+// Evitar que pueda responder varias veces  
 
-        }
-    );
+botones.forEach(function(boton) {  
 
-    if (
-        respuestaSeleccionada ===
-        datos.correcta
-    ) {
+    boton.disabled = true;  
 
-        puntos++;
+});  
 
-        botonSeleccionado.classList.add(
-            "correcta"
-        );
 
-        mensaje.textContent =
-            "✦ ¡Respuesta correcta!";
+// Respuesta correcta  
 
-    } else {
+if (  
+    respuestaSeleccionada ===  
+    datos.correcta  
+) {  
 
-        botonSeleccionado.classList.add(
-            "incorrecta"
-        );
+    puntos++;  
 
-        botones[
-            datos.correcta
-        ].classList.add(
-            "correcta"
-        );
+    botonSeleccionado.classList.add(  
+        "correcta"  
+    );  
 
-        mensaje.textContent =
-            "✦ Respuesta incorrecta.";
-    }
+    mensaje.textContent =  
+        "✦ ¡Respuesta correcta!";  
 
-    siguiente.classList.remove("oculto");
 
-    if (
-        preguntaActual ===
-        TOTAL_PREGUNTAS - 1
-    ) {
+} else {  
 
-        siguiente.textContent =
-            "Ver mi resultado ❧";
+    botonSeleccionado.classList.add(  
+        "incorrecta"  
+    );  
 
-    } else {
 
-        siguiente.textContent =
-            "Siguiente pregunta ❧";
-    }
+    // Mostrar cuál era la correcta  
+
+    botones[  
+        datos.correcta  
+    ].classList.add(  
+        "correcta"  
+    );  
+
+
+    mensaje.textContent =  
+        "✦ Respuesta incorrecta.";  
+
+}  
+
+
+// Mostrar botón siguiente  
+
+siguiente.classList.remove(  
+    "oculto"  
+);  
+
+
+// Cambiar texto en última pregunta  
+
+if (  
+    preguntaActual ===  
+    TOTAL_PREGUNTAS - 1  
+) {  
+
+    siguiente.textContent =  
+        "Ver mi resultado ❧";  
+
+} else {  
+
+    siguiente.textContent =  
+        "Siguiente pregunta ❧";  
+
 }
 
+}
 
 // ======================================================
-// SIGUIENTE
+// SIGUIENTE PREGUNTA
 // ======================================================
 
 siguiente.addEventListener(
-    "click",
-    function() {
+"click",
+function() {
 
-        preguntaActual++;
-
-        if (
-            preguntaActual <
-            TOTAL_PREGUNTAS
-        ) {
-
-            cargarPregunta();
-
-        } else {
-
-            mostrarResultado();
-        }
-    }
-);
+preguntaActual++;  
 
 
-// ======================================================
-// RESULTADO
-// ======================================================
+    if (  
+        preguntaActual <  
+        TOTAL_PREGUNTAS  
+    ) {  
 
-async function mostrarResultado() {
+        cargarPregunta();  
 
-    nombreResultado.textContent =
-        nombreJugador;
+    } else {  
 
-    puntosElemento.textContent =
-        puntos;
+        mostrarResultado();  
 
-    const nota =
-        Number(
-            (
-                (puntos /
-                TOTAL_PREGUNTAS) * 5
-            ).toFixed(1)
-        );
+    }  
 
-    if (puntos === 5) {
-
-        mensajeFinal.textContent =
-            "¡Excelente! Conoces muy bien la obra de Werther.";
-
-    } else if (puntos >= 3) {
-
-        mensajeFinal.textContent =
-            "¡Buen trabajo! Has demostrado buenos conocimientos.";
-
-    } else {
-
-        mensajeFinal.textContent =
-            "Buen intento. Puedes volver a revisar la obra.";
-    }
-
-
-    // Guardar resultado
-    if (supabaseClient) {
-
-        const { error } =
-            await supabaseClient
-                .from("resultados")
-                .insert({
-                    nombre: nombreJugador,
-                    puntos: puntos,
-                    nota: nota
-                });
-
-        if (error) {
-
-            console.error(
-                "Error guardando resultado:",
-                error
-            );
-
-        } else {
-
-            console.log(
-                "Resultado guardado correctamente"
-            );
-        }
-
-    } else {
-
-        console.error(
-            "Supabase no se pudo cargar."
-        );
-    }
-
-    mostrarPantalla(resultado);
 }
 
+);
+
+// ======================================================
+// MOSTRAR RESULTADO
+// ======================================================
+
+function mostrarResultado() {
+
+nombreResultado.textContent =  
+    nombreJugador;  
+
+
+puntosElemento.textContent =  
+    puntos;  
+
+
+// Mensaje según puntuación  
+
+if (puntos === 5) {  
+
+    mensajeFinal.textContent =  
+        "¡Excelente! Conoces muy bien la obra de Werther.";  
+
+} else if (puntos >= 3) {  
+
+    mensajeFinal.textContent =  
+        "¡Buen trabajo! Has demostrado buenos conocimientos.";  
+
+} else {  
+
+    mensajeFinal.textContent =  
+        "Buen intento. Puedes volver a revisar la obra.";  
+
+}  
+
+
+mostrarPantalla(resultado);
+
+}
 
 // ======================================================
 // VOLVER AL INICIO
 // ======================================================
 
 volverInicio.addEventListener(
-    "click",
-    function() {
+"click",
+function() {
 
-        nombreInput.value = "";
+nombreInput.value = "";  
 
-        nombreInput.placeholder =
-            "Tu nombre...";
+    nombreInput.placeholder =  
+        "Tu nombre...";  
 
-        mostrarPantalla(inicio);
-    }
+    mostrarPantalla(inicio);  
+
+}
+
 );
 
-
 // ======================================================
-// CAMBIAR PANTALLA
+// CAMBIAR DE PANTALLA
 // ======================================================
 
 function mostrarPantalla(pantalla) {
 
-    inicio.classList.remove("activa");
+inicio.classList.remove("activa");  
 
-    quiz.classList.remove("activa");
+quiz.classList.remove("activa");  
 
-    resultado.classList.remove("activa");
+resultado.classList.remove("activa");  
 
-    pantalla.classList.add("activa");
+
+pantalla.classList.add("activa");
+
 }
 
-
 // ======================================================
-// ROMANOS
+// NÚMEROS ROMANOS
 // ======================================================
 
 function convertirNumeroRomano(numero) {
 
-    const romanos = [
-        "I",
-        "II",
-        "III",
-        "IV",
-        "V"
-    ];
+const romanos = [  
+    "I",  
+    "II",  
+    "III",  
+    "IV",  
+    "V"  
+];  
 
-    return romanos[numero - 1];
+return romanos[numero - 1];  
+
 }
