@@ -1,28 +1,23 @@
 // ======================================================
-// QUIZ: LAS AVENTURAS DE WERTHER
-// Wolfgang von Goethe
-// ======================================================
-
-
-// ======================================================
-// CONEXIÓN CON SUPABASE
+// SUPABASE
 // ======================================================
 
 const SUPABASE_URL =
     "https://pqmlwbsafihcwfobvjud.supabase.co";
 
-const SUPABASE_PUBLISHABLE_KEY =
+const SUPABASE_KEY =
     "sb_publishable_xoORP9IGxU6xSNDGtCG77w_52ECZyHq";
 
 const supabaseClient =
-    window.supabase.createClient(
+    supabase.createClient(
         SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
+        SUPABASE_KEY
     );
 
 
 // ======================================================
-// AQUÍ PUEDES CAMBIAR LAS PREGUNTAS
+// QUIZ: LAS AVENTURAS DE WERTHER
+// Wolfgang von Goethe
 // ======================================================
 
 const preguntas = [
@@ -89,24 +84,31 @@ const preguntas = [
 // CONFIGURACIÓN
 // ======================================================
 
-const TOTAL_PREGUNTAS = 5;
+const TOTAL_PREGUNTAS = preguntas.length;
 
 let preguntaActual = 0;
 let puntos = 0;
 let nombreJugador = "";
-let resultadoGuardado = false;
 
 
 // ======================================================
 // ELEMENTOS DEL HTML
 // ======================================================
 
-const inicio = document.getElementById("inicio");
-const quiz = document.getElementById("quiz");
-const resultado = document.getElementById("resultado");
+const inicio =
+    document.getElementById("inicio");
 
-const nombreInput = document.getElementById("nombre");
-const comenzar = document.getElementById("comenzar");
+const quiz =
+    document.getElementById("quiz");
+
+const resultado =
+    document.getElementById("resultado");
+
+const nombreInput =
+    document.getElementById("nombre");
+
+const comenzar =
+    document.getElementById("comenzar");
 
 const nombreJugadorElemento =
     document.getElementById("nombreJugador");
@@ -172,7 +174,6 @@ function comenzarQuiz() {
     nombreJugador =
         nombreInput.value.trim();
 
-
     if (nombreJugador === "") {
 
         nombreInput.focus();
@@ -183,15 +184,12 @@ function comenzarQuiz() {
         return;
     }
 
-
     preguntaActual = 0;
-    puntos = 0;
-    resultadoGuardado = false;
 
+    puntos = 0;
 
     nombreJugadorElemento.textContent =
         nombreJugador;
-
 
     mostrarPantalla(quiz);
 
@@ -205,7 +203,7 @@ function comenzarQuiz() {
 
 function cargarPregunta() {
 
-    const preguntaActualDatos =
+    const datos =
         preguntas[preguntaActual];
 
 
@@ -225,4 +223,342 @@ function cargarPregunta() {
 
 
     barraProgreso.style.width =
-        `${pro
+        `${progreso}%`;
+
+
+    preguntaElemento.textContent =
+        datos.pregunta;
+
+
+    respuestas.innerHTML = "";
+
+    mensaje.textContent = "";
+
+    siguiente.classList.add(
+        "oculto"
+    );
+
+
+    datos.opciones.forEach(
+        function(texto, indice) {
+
+            const boton =
+                document.createElement("button");
+
+            boton.classList.add(
+                "respuesta"
+            );
+
+
+            const letra =
+                document.createElement("span");
+
+            letra.classList.add(
+                "letra"
+            );
+
+            letra.textContent =
+                String.fromCharCode(
+                    65 + indice
+                );
+
+
+            const textoRespuesta =
+                document.createElement("span");
+
+            textoRespuesta.classList.add(
+                "texto"
+            );
+
+            textoRespuesta.textContent =
+                texto;
+
+
+            boton.appendChild(letra);
+
+            boton.appendChild(
+                textoRespuesta
+            );
+
+
+            boton.addEventListener(
+                "click",
+                function() {
+
+                    responder(
+                        boton,
+                        indice
+                    );
+
+                }
+            );
+
+
+            respuestas.appendChild(
+                boton
+            );
+
+        }
+    );
+
+}
+
+
+// ======================================================
+// COMPROBAR RESPUESTA
+// ======================================================
+
+function responder(
+    botonSeleccionado,
+    respuestaSeleccionada
+) {
+
+    const datos =
+        preguntas[preguntaActual];
+
+
+    const botones =
+        document.querySelectorAll(
+            ".respuesta"
+        );
+
+
+    botones.forEach(
+        function(boton) {
+
+            boton.disabled = true;
+
+        }
+    );
+
+
+    if (
+        respuestaSeleccionada ===
+        datos.correcta
+    ) {
+
+        puntos++;
+
+        botonSeleccionado.classList.add(
+            "correcta"
+        );
+
+        mensaje.textContent =
+            "✦ ¡Respuesta correcta!";
+
+    } else {
+
+        botonSeleccionado.classList.add(
+            "incorrecta"
+        );
+
+
+        botones[
+            datos.correcta
+        ].classList.add(
+            "correcta"
+        );
+
+
+        mensaje.textContent =
+            "✦ Respuesta incorrecta.";
+
+    }
+
+
+    siguiente.classList.remove(
+        "oculto"
+    );
+
+
+    if (
+        preguntaActual ===
+        TOTAL_PREGUNTAS - 1
+    ) {
+
+        siguiente.textContent =
+            "Ver mi resultado ❧";
+
+    } else {
+
+        siguiente.textContent =
+            "Siguiente pregunta ❧";
+
+    }
+
+}
+
+
+// ======================================================
+// SIGUIENTE PREGUNTA
+// ======================================================
+
+siguiente.addEventListener(
+    "click",
+    function() {
+
+        preguntaActual++;
+
+
+        if (
+            preguntaActual <
+            TOTAL_PREGUNTAS
+        ) {
+
+            cargarPregunta();
+
+        } else {
+
+            mostrarResultado();
+
+        }
+
+    }
+);
+
+
+// ======================================================
+// MOSTRAR RESULTADO
+// ======================================================
+
+async function mostrarResultado() {
+
+    nombreResultado.textContent =
+        nombreJugador;
+
+
+    puntosElemento.textContent =
+        puntos;
+
+
+    // Nota sobre 5.0
+
+    const nota =
+        Number(
+            (
+                (puntos /
+                TOTAL_PREGUNTAS) * 5
+            ).toFixed(1)
+        );
+
+
+    // Mensaje final
+
+    if (puntos === 5) {
+
+        mensajeFinal.textContent =
+            "¡Excelente! Conoces muy bien la obra de Werther.";
+
+    } else if (puntos >= 3) {
+
+        mensajeFinal.textContent =
+            "¡Buen trabajo! Has demostrado buenos conocimientos.";
+
+    } else {
+
+        mensajeFinal.textContent =
+            "Buen intento. Puedes volver a revisar la obra.";
+
+    }
+
+
+    // ==================================================
+    // GUARDAR EN SUPABASE
+    // ==================================================
+
+    const { data, error } =
+        await supabaseClient
+            .from("resultados")
+            .insert([
+                {
+                    nombre: nombreJugador,
+                    puntos: puntos,
+                    nota: nota
+                }
+            ]);
+
+
+    if (error) {
+
+        console.error(
+            "Error guardando resultado:",
+            error
+        );
+
+    } else {
+
+        console.log(
+            "Resultado guardado correctamente"
+        );
+
+    }
+
+
+    mostrarPantalla(resultado);
+
+}
+
+
+// ======================================================
+// VOLVER AL INICIO
+// ======================================================
+
+volverInicio.addEventListener(
+    "click",
+    function() {
+
+        nombreInput.value = "";
+
+        nombreInput.placeholder =
+            "Tu nombre...";
+
+        mostrarPantalla(inicio);
+
+    }
+);
+
+
+// ======================================================
+// CAMBIAR DE PANTALLA
+// ======================================================
+
+function mostrarPantalla(pantalla) {
+
+    inicio.classList.remove(
+        "activa"
+    );
+
+    quiz.classList.remove(
+        "activa"
+    );
+
+    resultado.classList.remove(
+        "activa"
+    );
+
+
+    pantalla.classList.add(
+        "activa"
+    );
+
+}
+
+
+// ======================================================
+// NÚMEROS ROMANOS
+// ======================================================
+
+function convertirNumeroRomano(numero) {
+
+    const romanos = [
+        "I",
+        "II",
+        "III",
+        "IV",
+        "V"
+    ];
+
+
+    return romanos[numero - 1];
+
+}
