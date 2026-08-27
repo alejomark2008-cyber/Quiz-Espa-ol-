@@ -60,14 +60,14 @@ const preguntas = [
 },
 
 {
-    pregunta: "¿Qué movimiento literario representa principalmente esta obra?",
+    pregunta: "¿Por qué Werther se despide de Charlotte?",
     opciones: [
-        "Realismo",
-        "Romanticismo",
-        "Naturalismo",
-        "Modernismo"
+        "Porque debe viajar lejos",
+        "Porque ha perdido la esperanza de poder vivir su amor con ella",
+        "Porque Charlotte le pide que se valla",
+        "Porque quiere comenzar una nueva vida"
     ],
-    correcta: 1
+    correcta: 2
 },
 
 {
