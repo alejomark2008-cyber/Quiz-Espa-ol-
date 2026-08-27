@@ -49,12 +49,12 @@ const preguntas = [
 },
 
 {
-    pregunta: "¿De quién se enamora profundamente Werther?",
+    pregunta: "¿Cual de las siguientes afirmaciones sobre el papel de la naturaleza es verdadero?",
     opciones: [
-        "Charlotte",
-        "Sophie",
-        "Clara",
-        "Elisabeth"
+        "Se utiliza para reflejar el estado emocional de Werther,transformándose según su ánimos",
+        "Representa la estabilidad y la razón,en contraste con la pasión de los personajes",
+        "Aparece solo al principio cuando Werther llega buscando tranquilidad al pueblo",
+        "Es solo el escenario donde transcurre la historia,sin mayor importancia"
     ],
     correcta: 0
 },
