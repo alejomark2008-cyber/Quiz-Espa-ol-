@@ -63,8 +63,8 @@ const preguntas = [
     pregunta: "¿Por qué Werther se despide de Charlotte?",
     opciones: [
         "Porque debe viajar lejos",
-        "Porque ha perdido la esperanza de poder vivir su amor con ella",
         "Porque Charlotte le pide que se valla",
+        "Porque ha perdido la esperanza de poder vivir su amor con ella",
         "Porque quiere comenzar una nueva vida"
     ],
     correcta: 2
